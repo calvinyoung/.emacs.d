@@ -19,6 +19,9 @@
 ;; Load java configs
 (load-library "java-config")
 
+;; Load html configs
+(load-library "html-config")
+
 ;; Load global key bindings
 (load-library "keybindings")
 
