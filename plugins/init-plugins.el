@@ -29,3 +29,11 @@
 (set-face-background 'ac-candidate-face "#141414")
 (set-face-foreground 'ac-candidate-face "#f6f3e8")
 (set-face-background 'ac-selection-face "#64a8d8")
+
+;;;;;;;;;;;;;;;;;;;;;;;
+;; Enable markdown-mode
+;;;;;;;;;;;;;;;;;;;;;;;
+(autoload 'markdown-mode "markdown-mode.el"
+   "Major mode for editing Markdown files" t)
+(setq auto-mode-alist
+   (cons '("\\.md" . markdown-mode) auto-mode-alist))
