@@ -61,7 +61,7 @@
       (border-color . ,wombat-bg)
       (cursor-color . ,wombat-blue-1)
       (foreground-color . ,wombat-fg)
-      (mouse-color . "black"))
+      (mouse-color . "white"))
 
      ;; Font Lock
      (font-lock-builtin-face ((t (:foreground ,wombat-blue))))
@@ -110,7 +110,7 @@
      (org-hide ((t (:foreground ,wombat-bg))))
      (org-done ((t (:foreground ,wombat-green+2 :bold t))))
      (org-level-1 ((t (:foreground ,wombat-blue :bold t))))
-     (org-level-2 ((t (:foreground "#ee9a49")))) ;"#ee9a49"))))
+     (org-level-2 ((t (:foreground "#ee9a49"))))
      (org-level-3 ((t (:foreground "#ff83fa"))))
      (org-level-4 ((t (:foreground "#ffa500"))))
      (org-level-5 ((t (:foreground "#ff4040"))))
