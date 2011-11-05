@@ -42,4 +42,5 @@
 ;;;;;;;;;;;;;;;;;;;;;;;
 (autoload 'scss-mode "scss-mode"
    "Major mode for editing SCSS files" t)
+(setq scss-compile-at-save nil)
 (add-to-list 'auto-mode-alist '("\\.scsstt$" . scss-mode))
