@@ -57,8 +57,8 @@
 ;; Enable column number mode
 (column-number-mode t)
 
-;; Winner mode
-(winner-mode t)
+;; Set default tramp mode protocol
+(setq tramp-default-method "ssh")
 
 ;;;;;;;;;;;;;;;;;;;;
 ;; Hooks
@@ -73,9 +73,6 @@
 
 ;; Discard trailing whitespace on file save
 (add-hook 'write-file-hooks 'delete-trailing-whitespace)
-
-;; Set default tramp mode protocol
-(setq tramp-default-method "ssh")
 
 ;; Integrate emacs and X clipboards
 (setq x-select-enable-clipboard t)

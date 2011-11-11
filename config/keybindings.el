@@ -15,8 +15,8 @@
 (global-set-key "\C-c\C-m" 'execute-extended-command)
 
 ;; Compile command
-(global-set-key [Cn-f11] 'compile)
-(global-set-key [S-f11] 'kill-compilation)
+(global-set-key [\C-f11] 'compile)
+(global-set-key [\S-f11] 'kill-compilation)
 (global-set-key [f11] 'next-error)
 
 ;; Easier goto line
@@ -126,13 +126,25 @@ With argument ARG and region inactive, do this that many times."
 (define-key (current-global-map) [remap backward-kill-word]
   'my-backward-kill-word)
 
+;; Emulate vim's "%" command to match parentheses
+(global-set-key [?\C-%] 'goto-match-paren)
+(defun goto-match-paren (arg)
+  "Go to the matching  if on (){}[], similar to vi style of % "
+  (interactive "p")
+  ;; first, check for "outside of bracket" positions expected by forward-sexp, etc.
+  (cond ((looking-at "[\[\(\{]") (forward-sexp))
+        ((looking-back "[\]\)\}]" 1) (backward-sexp))
+        ;; now, try to succeed from inside of a bracket
+        ((looking-at "[\]\)\}]") (forward-char) (backward-sexp))
+        ((looking-back "[\[\(\{]" 1) (backward-char) (forward-sexp))
+        (t nil)))
+
 ;; Define custom minor mode keys
 (defvar my-keys-map (make-keymap) "my-keys keymap.")
 
 (define-minor-mode my-keys
   "A minor mode so that my key settings override annoying major modes."
   t nil 'my-keys-map)
-;; (define-key my-keys-map "\C-\M-p" (lambda() (interactive) (scroll-down 5)))
 
 ;; Scroll screen up and down
 (define-key my-keys-map "\C-\M-p" (lambda() (interactive) (scroll-down 5)))
@@ -141,45 +153,3 @@ With argument ARG and region inactive, do this that many times."
 ;; Move up and down by 5 lines with M-n and M-p
 (define-key my-keys-map "\M-n" (lambda() (interactive) (next-line 10)))
 (define-key my-keys-map "\M-p" (lambda() (interactive) (previous-line 10)))
-
-;; Move between windows more easily
-(define-key my-keys-map "\M-h" 'windmove-left)
-(define-key my-keys-map "\M-j" 'windmove-down)
-(define-key my-keys-map "\M-k" 'windmove-up)
-(define-key my-keys-map "\M-l" 'windmove-right)
-
-;; Resize windows
-(define-key my-keys-map "\C-\M-h" 'enlarge-window-horizontally)
-(define-key my-keys-map "\C-\M-j" 'enlarge-window)
-(define-key my-keys-map "\C-\M-k" 'shrink-window)
-(define-key my-keys-map "\C-\M-l" 'shrink-window-horizontally)
-
-;; Recover overwritten key bindings
-(define-key my-keys-map "\C-j" 'indent-new-comment-line)
-(define-key my-keys-map "\C-x\M-l" 'downcase-word)
-(define-key my-keys-map "\C-x\M-k" 'kill-sentence)
-
-;; Rotate windows counter-clockwise
-(define-key my-keys-map "\C-xr" 'rotate-windows)
-(defun rotate-windows ()
-  "Rotate your windows counter-clockwise"
-  (interactive)
-  (cond ((not (> (count-windows) 1))
-         (message "You can't rotate a single window!"))
-        (t
-         (setq i 1)
-         (setq numWindows (count-windows))
-         (while  (< i numWindows)
-           (let* (
-                  (w1 (elt (window-list) i))
-                  (w2 (elt (window-list) (+ (% i numWindows) 1)))
-                  (b1 (window-buffer w1))
-                  (b2 (window-buffer w2))
-                  (s1 (window-start w1))
-                  (s2 (window-start w2))
-                  )
-             (set-window-buffer w1  b2)
-             (set-window-buffer w2 b1)
-             (set-window-start w1 s2)
-             (set-window-start w2 s1)
-             (setq i (1+ i)))))))
